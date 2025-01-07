@@ -1,8 +1,8 @@
 import "./button.css";
 
-const Button = ({ buttonText }) => {
+const Button = ({ children, type }) => {
   return (
-    <button className="button">{buttonText}</button>
+    <button className={`btn btn-${type || 'primary'}`}>{children}</button>
   )
 };
 

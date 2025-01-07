@@ -1,19 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Button from './components/button.jsx'
-import Input from './components/input.jsx'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./screens/login.jsx";
+import Dashboard from "./screens/dashboard.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div>
-      <Input type="text" placeholder={"username"} />
-      <Input type="password" placeholder={"password"} />
-      <Button buttonText="Login"></Button>
-    </div>
-  )
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Dashboard />} />
+				<Route path="/login" element={<Login />} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
-export default App
+export default App;

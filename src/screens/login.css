@@ -1,0 +1,14 @@
+.login {
+  display: flex;
+  height: 100vh;
+  
+}
+
+.login-banner {
+  width: 50%;
+  background-color: blue;
+}
+
+.login-form {
+  width: 50%;
+}
