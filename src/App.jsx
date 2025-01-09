@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./screens/login.jsx";
+// import Login from "./screens/login.jsx";
 import Dashboard from "./screens/dashboard.jsx";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Dashboard />} />
-				<Route path="/login" element={<Login />} />
+				{/* <Route path="/login" element={<Login />} /> */}
 			</Routes>
 		</BrowserRouter>
 	);

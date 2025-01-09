@@ -1,101 +1,132 @@
 import Header from "../components/header";
 import Drone from "../assets/drone.jpeg";
+import Tag from "../components/tag";
+import Product from "../components/product";
 
 const Dashboard = () => {
+	const products = [
+		{
+			url: "",
+			name: "OnePlus 12",
+			price: "47000",
+			description: "Flowy emerald grren 16GB/512GB",
+			location: "Madiwala, Bangalore",
+			datePosted: "Dec 24",
+		},
+		{
+			url: "",
+			name: "iPhone 15",
+			price: "80000",
+			description: "256GB, white",
+			location: "Coimbatore",
+			datePosted: "Dec 12",
+		},
+		{
+			url: "",
+			name: "OnePlus 12",
+			price: "47000",
+			description: "Flowy emerald grren 16GB/512GB",
+			location: "Madiwala, Bangalore",
+			datePosted: "Dec 24",
+		},
+		{
+			url: "",
+			name: "iPhone 15",
+			price: "80000",
+			description: "256GB, white",
+			location: "Coimbatore",
+			datePosted: "Dec 12",
+		},
+		{
+			url: "",
+			name: "OnePlus 12",
+			price: "47000",
+			description: "Flowy emerald grren 16GB/512GB",
+			location: "Madiwala, Bangalore",
+			datePosted: "Dec 24",
+		},
+		{
+			url: "",
+			name: "iPhone 15",
+			price: "80000",
+			description: "256GB, white",
+			location: "Coimbatore",
+			datePosted: "Dec 12",
+		},
+		{
+			url: "",
+			name: "OnePlus 12",
+			price: "47000",
+			description: "Flowy emerald grren 16GB/512GB",
+			location: "Madiwala, Bangalore",
+			datePosted: "Dec 24",
+		},
+		{
+			url: "",
+			name: "iPhone 15",
+			price: "80000",
+			description: "256GB, white",
+			location: "Coimbatore",
+			datePosted: "Dec 12",
+		},
+		{
+			url: "",
+			name: "OnePlus 12",
+			price: "47000",
+			description: "Flowy emerald grren 16GB/512GB",
+			location: "Madiwala, Bangalore",
+			datePosted: "Dec 24",
+		},
+		{
+			url: "",
+			name: "iPhone 15",
+			price: "80000",
+			description: "256GB, white",
+			location: "Coimbatore",
+			datePosted: "Dec 12",
+		},
+		{
+			url: "",
+			name: "OnePlus 12",
+			price: "47000",
+			description: "Flowy emerald grren 16GB/512GB",
+			location: "Madiwala, Bangalore",
+			datePosted: "Dec 24",
+		},
+		{
+			url: "",
+			name: "iPhone 15",
+			price: "80000",
+			description: "256GB, white",
+			location: "Coimbatore",
+			datePosted: "Dec 12",
+		},
+	];
 	return (
 		<div>
 			<Header />
-			<div className="p-4 row gy-4">
-				<div className="col-3">
-					<div className="card" style={{ width: "18rem" }}>
-						<img src={Drone} className="card-img-top" alt="..." />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the cards content.
-							</p>
-							<a href="#" className="btn btn-primary">
-								Go somewhere
-							</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-3">
-					<div className="card" style={{ width: "18rem" }}>
-						<img src={Drone} className="card-img-top" alt="..." />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the cards content.
-							</p>
-							<a href="#" className="btn btn-primary">
-								Go somewhere
-							</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-3">
-					<div className="card" style={{ width: "18rem" }}>
-						<img src={Drone} className="card-img-top" alt="..." />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the cards content.
-							</p>
-							<a href="#" className="btn btn-primary">
-								Go somewhere
-							</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-3">
-					<div className="card" style={{ width: "18rem" }}>
-						<img src={Drone} className="card-img-top" alt="..." />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the cards content.
-							</p>
-							<a href="#" className="btn btn-primary">
-								Go somewhere
-							</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-3">
-					<div className="card" style={{ width: "18rem" }}>
-						<img src={Drone} className="card-img-top" alt="..." />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the cards content.
-							</p>
-							<a href="#" className="btn btn-primary">
-								Go somewhere
-							</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-3">
-					<div className="card" style={{ width: "18rem" }}>
-						<img src={Drone} className="card-img-top" alt="..." />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the cards content.
-							</p>
-							<a href="#" className="btn btn-primary">
-								Go somewhere
-							</a>
-						</div>
-					</div>
-				</div>
+			{/* Tags */}
+			<div className="flex items-center px-6 py-4 pt-8 gap-4 flex-wrap">
+				<Tag>Phones</Tag>
+				<Tag>Phone Accessories</Tag>
+				<Tag>Laptops</Tag>
+				<Tag>Laptop Accessories</Tag>
+				<Tag>Camera</Tag>
+				<Tag>Camera Accessories</Tag>
+				<Tag>Drone</Tag>
+			</div>
+			{/* Tags */}
+			<div className="p-4 flex gap-8 flex-wrap ">
+				{products.map((item) => (
+					<Product
+						url={item.url}
+						name={item.name}
+						price={item.price}
+						description={item.description}
+						location={item.location}
+						datePosted={item.datePosted}
+					/>
+				))}
 			</div>
 		</div>
 	);
