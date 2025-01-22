@@ -2,6 +2,7 @@ import Header from "../components/header";
 import Drone from "../assets/drone.jpeg";
 import Tag from "../components/tag";
 import Product from "../components/product";
+import Button from "../components/button";
 
 const Dashboard = () => {
 	const products = [
@@ -104,9 +105,8 @@ const Dashboard = () => {
 	];
 	return (
 		<div>
-			<Header />
 			{/* Tags */}
-			<div className="flex items-center px-6 py-4 pt-8 gap-4 flex-wrap">
+			<div className="flex items-center px-6 py-4 pt-4 gap-4 flex-wrap items-center">
 				<Tag>Phones</Tag>
 				<Tag>Phone Accessories</Tag>
 				<Tag>Laptops</Tag>
@@ -114,9 +114,10 @@ const Dashboard = () => {
 				<Tag>Camera</Tag>
 				<Tag>Camera Accessories</Tag>
 				<Tag>Drone</Tag>
+				<Button type="secondary">Clear All</Button>
 			</div>
 			{/* Tags */}
-			<div className="p-4 flex gap-8 flex-wrap ">
+			<div className="px-4 py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 				{products.map((item) => (
 					<Product
 						url={item.url}

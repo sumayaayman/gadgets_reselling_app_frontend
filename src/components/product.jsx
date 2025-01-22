@@ -1,22 +1,38 @@
 import Drone from "../assets/drone.jpeg";
 
 const Product = ({ url, name, price, description, location, datePosted }) => {
-  return (
-    <div className="border rounded min-w-[10rem] max-w-[15rem] shadow-sm overflow-hidden">
-      <div>
-        <img className="w-full" src={Drone} alt="product-image" />
-      </div>
-      <div className="p-4">
-        <h5 className="text-lg font-semibold">&#8377;{price}</h5>
-        <p className="text-slate-600 py-1">{name}</p>
-        <p className="text-slate-600 text-sm">{description}</p>
-        <div className="text-slate-600 text-xs flex justify-between items-center py-2">
-          <p>{location}</p>
-          <p>{datePosted}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
+	return (
+		<div className="max-w-xs w-full rounded-lg border border-gray-200 shadow-lg hover:shadow-xl transition-shadow ease-in-out duration-300 transform">
+			{/* Product Image */}
+			<div className="w-full overflow-hidden rounded-t-lg">
+				<img
+					className="w-full h-48 object-cover transform transition-transform duration-300 hover:scale-110"
+					src={Drone}
+					alt="product-image"
+				/>
+			</div>
+
+			{/* Product Details */}
+			<div className="p-5 bg-white">
+				<div className="flex items-center justify-between">
+					<h5 className="text-xl font-semibold text-indigo-600">
+						&#8377;{price}
+					</h5>
+					<span className="text-xs text-gray-500">{datePosted}</span>
+				</div>
+
+				<h4 className="text-lg font-semibold text-gray-800 mt-2">{name}</h4>
+				<p className="text-gray-600 text-sm mt-1">{description}</p>
+
+				<div className="mt-4 flex justify-between text-xs text-gray-500">
+					<p>{location}</p>
+					<a href={url} className="text-indigo-500 hover:underline">
+						View Details
+					</a>
+				</div>
+			</div>
+		</div>
+	);
+};
 
 export default Product;
