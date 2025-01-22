@@ -15,10 +15,10 @@ const Header = () => {
       <Search />
       <div>
         <div className="flex gap-8 appearances-none cursor-pointer">
-          <div className="hover:text-amber-600" onClick={() => onClickMenus("/")}>Home</div>
-          <div className="hover:text-amber-600" onClick={() => onClickMenus("/sell")}>Sell</div>
-          <div className="hover:text-amber-600" onClick={() => onClickMenus("/chat")}>Chat</div>
-          <div className="hover:text-amber-600" onClick={() => onClickMenus("/account")}>Account</div>
+          <div className="hover:text-amber-600 cursor-pointer" onClick={() => onClickMenus("/")}>Home</div>
+          <div className="hover:text-amber-600 cursor-pointer" onClick={() => onClickMenus("/sell")}>Sell</div>
+          <div className="hover:text-amber-600 cursor-pointer" onClick={() => onClickMenus("/chat")}>Chat</div>
+          <div className="hover:text-amber-600 cursor-pointer" onClick={() => onClickMenus("/account")}>Account</div>
         </div>
       </div>
     </div>
