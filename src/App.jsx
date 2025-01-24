@@ -5,6 +5,7 @@ import Account from "./screens/account.jsx";
 import Header from "./components/header.jsx";
 import Chat from "./screens/chat.jsx";
 import Sell from "./screens/sell.jsx";
+import Login from "./screens/login.jsx";
 
 function App() {
 	return (
@@ -13,14 +14,11 @@ function App() {
 			<Header />
 
 				<Routes>
+					<Route path="/login" element={<Login />} />
 					<Route path="/" element={<Home />} />
 					<Route path="/account" element={<Account />} />
 					<Route path="/chat" element={<Chat />} />
 					<Route path="/sell" element={<Sell />} />
-
-
-
-					{/* <Route path="/login" element={<Login />} /> */}
 				</Routes>
 			</BrowserRouter>
 		</div>

@@ -205,12 +205,12 @@ const Sell = () => {
 				</div>
 
 				{/* Submit Button */}
-				<div>
+				<div className="flex justify-center">
 					<button
 						type="submit"
-						className="w-full p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition duration-200"
+						className="w-auto px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition duration-200"
 					>
-						List My Gadget
+						Save
 					</button>
 				</div>
 			</form>

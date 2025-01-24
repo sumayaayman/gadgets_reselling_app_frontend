@@ -106,7 +106,7 @@ const Dashboard = () => {
 	return (
 		<div>
 			{/* Tags */}
-			<div className="flex items-center px-6 py-4 pt-4 gap-4 flex-wrap items-center">
+			<div className="flex items-center px-6 py-4 pt-4 gap-4 flex-wrap">
 				<Tag>Phones</Tag>
 				<Tag>Phone Accessories</Tag>
 				<Tag>Laptops</Tag>
@@ -117,7 +117,7 @@ const Dashboard = () => {
 				<Button type="secondary">Clear All</Button>
 			</div>
 			{/* Tags */}
-			<div className="px-4 py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+			<div className="px-4 py-2 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
 				{products.map((item) => (
 					<Product
 						url={item.url}
