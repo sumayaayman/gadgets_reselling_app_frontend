@@ -1,132 +1,76 @@
-import Header from "../components/header";
-import Drone from "../assets/drone.jpeg";
 import Tag from "../components/tag";
 import Product from "../components/product";
 import Button from "../components/button";
+import { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { callAPI } from "../utils/api";
+import { BASE_URL, CATEGORIES, PRODUCTS } from "../constants/url";
 
 const Dashboard = () => {
-	const products = [
-		{
-			url: "",
-			name: "OnePlus 12",
-			price: "47000",
-			description: "Flowy emerald grren 16GB/512GB",
-			location: "Madiwala, Bangalore",
-			datePosted: "Dec 24",
-		},
-		{
-			url: "",
-			name: "iPhone 15",
-			price: "80000",
-			description: "256GB, white",
-			location: "Coimbatore",
-			datePosted: "Dec 12",
-		},
-		{
-			url: "",
-			name: "OnePlus 12",
-			price: "47000",
-			description: "Flowy emerald grren 16GB/512GB",
-			location: "Madiwala, Bangalore",
-			datePosted: "Dec 24",
-		},
-		{
-			url: "",
-			name: "iPhone 15",
-			price: "80000",
-			description: "256GB, white",
-			location: "Coimbatore",
-			datePosted: "Dec 12",
-		},
-		{
-			url: "",
-			name: "OnePlus 12",
-			price: "47000",
-			description: "Flowy emerald grren 16GB/512GB",
-			location: "Madiwala, Bangalore",
-			datePosted: "Dec 24",
-		},
-		{
-			url: "",
-			name: "iPhone 15",
-			price: "80000",
-			description: "256GB, white",
-			location: "Coimbatore",
-			datePosted: "Dec 12",
-		},
-		{
-			url: "",
-			name: "OnePlus 12",
-			price: "47000",
-			description: "Flowy emerald grren 16GB/512GB",
-			location: "Madiwala, Bangalore",
-			datePosted: "Dec 24",
-		},
-		{
-			url: "",
-			name: "iPhone 15",
-			price: "80000",
-			description: "256GB, white",
-			location: "Coimbatore",
-			datePosted: "Dec 12",
-		},
-		{
-			url: "",
-			name: "OnePlus 12",
-			price: "47000",
-			description: "Flowy emerald grren 16GB/512GB",
-			location: "Madiwala, Bangalore",
-			datePosted: "Dec 24",
-		},
-		{
-			url: "",
-			name: "iPhone 15",
-			price: "80000",
-			description: "256GB, white",
-			location: "Coimbatore",
-			datePosted: "Dec 12",
-		},
-		{
-			url: "",
-			name: "OnePlus 12",
-			price: "47000",
-			description: "Flowy emerald grren 16GB/512GB",
-			location: "Madiwala, Bangalore",
-			datePosted: "Dec 24",
-		},
-		{
-			url: "",
-			name: "iPhone 15",
-			price: "80000",
-			description: "256GB, white",
-			location: "Coimbatore",
-			datePosted: "Dec 12",
-		},
-	];
+	// Listen for authentication state changes
+	const auth = getAuth();
+
+	const navigate = useNavigate();
+
+	const [categoriesList, setCategoriesList] = useState([]);
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				console.log("User details:", user);
+			} else {
+				navigate("/login");
+			}
+		});
+	}, [auth, navigate]);
+
+	const getCategories = async () => {
+		const url = BASE_URL + CATEGORIES;
+
+		await callAPI(url)
+			.then((response) => {
+				setCategoriesList(response);
+			})
+			.catch((error) => {
+				console.error("Request failed:", error);
+			});
+	};
+
+	const getProducts = async () => {
+		const url = BASE_URL + PRODUCTS;
+
+		await callAPI(url).then((response) => {
+			setProducts(response);
+		});
+	};
+
+	useEffect(() => {
+		getCategories();
+		getProducts();
+	}, []);
+
 	return (
 		<div>
 			{/* Tags */}
 			<div className="flex items-center px-6 py-4 pt-4 gap-4 flex-wrap">
-				<Tag>Phones</Tag>
-				<Tag>Phone Accessories</Tag>
-				<Tag>Laptops</Tag>
-				<Tag>Laptop Accessories</Tag>
-				<Tag>Camera</Tag>
-				<Tag>Camera Accessories</Tag>
-				<Tag>Drone</Tag>
+				{categoriesList.map((item) => (
+					<Tag
+						key={item._id}
+						id={item._id}
+						name={item.name}
+						onClick={() => console.log(item)}
+					>
+						{item.name}
+					</Tag>
+				))}
 				<Button type="secondary">Clear All</Button>
 			</div>
 			{/* Tags */}
 			<div className="px-4 py-2 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
 				{products.map((item) => (
-					<Product
-						url={item.url}
-						name={item.name}
-						price={item.price}
-						description={item.description}
-						location={item.location}
-						datePosted={item.datePosted}
-					/>
+					<Product {...item} key={item._id} />
 				))}
 			</div>
 		</div>
