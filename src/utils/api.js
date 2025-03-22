@@ -1,15 +1,34 @@
-export const callAPI = async  (url, body = null, headers = {}) => {
+export const callAPI = async  (url, body = null, method = 'GET', headers = {}) => {
   try {
     const response = await fetch(url, {
-      method: body ? 'POST' : 'GET', // Default to GET if no body is provided
+      method: method,
       headers: {
         'Content-Type': 'application/json',
-        ...headers, // Merge custom headers
+        ...headers,
       },
-      body: body || null, // Stringify the body if it's provided
+      body: body ? JSON.stringify(body) : null,
     });
 
-    // Check if the response is ok (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json(); // Assuming the response is JSON
+    return data;
+  } catch (error) {
+    console.error('Error during fetch:', error);
+    throw error; // Rethrow the error to be handled elsewhere
+  }
+}
+
+
+export const callImageAPI = async  (url, body = null, method = 'POST') => {
+  try {
+    const response = await fetch(url, {
+      method: method,
+      body: body,
+    });
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

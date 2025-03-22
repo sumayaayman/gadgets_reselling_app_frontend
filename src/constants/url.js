@@ -5,3 +5,6 @@ export const PRODUCTS = "products";
 
 // categories
 export const CATEGORIES = 'categories';
+
+// images
+export const UPLOAD_IMAGES = "uploadImages";

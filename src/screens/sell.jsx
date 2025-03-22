@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+	BASE_URL,
+	CATEGORIES,
+	PRODUCTS,
+	UPLOAD_IMAGES,
+} from "../constants/url";
+import { callAPI, callImageAPI } from "../utils/api";
 
 const Sell = () => {
 	const [gadgetDetails, setGadgetDetails] = useState({
 		name: "",
 		price: "",
 		description: "",
-		category: "electronics",
+		category: "",
 		condition: "new",
 		location: "",
 		contact: "",
 		images: [],
 	});
+
+	const [categoriesList, setCategoriesList] = useState([]);
+	const [isImageUpading, setIsImageUploading] = useState(false);
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -20,14 +30,37 @@ const Sell = () => {
 		});
 	};
 
-	const handleFileChange = (e) => {
-		setGadgetDetails({
-			...gadgetDetails,
-			images: [...e.target.files],
-		});
+	const handleFileChange = async (e) => {
+		const chosenImages = e.target.files;
+		setIsImageUploading(true);
+
+		const url = BASE_URL + UPLOAD_IMAGES;
+		const formData = new FormData();
+
+		// Ensure chosenImages is an array of File objects
+		if (!chosenImages || chosenImages.length < 3 || chosenImages.length > 12) {
+			alert("Select images between 3 to 12!");
+			return;
+		}
+
+		// Append each image to FormData
+		for (let i = 0; i < chosenImages.length; i++) {
+			formData.append("images", chosenImages[i]);
+		}
+		try {
+			const response = await callImageAPI(url, formData);
+			const { images } = response;
+			setGadgetDetails({
+				...gadgetDetails,
+				images: [...images],
+			});
+		} catch {
+			alert("Failed to upload images, Try again!");
+		}
+		setIsImageUploading(false);
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (
 			!gadgetDetails.name ||
@@ -41,9 +74,43 @@ const Sell = () => {
 			return;
 		}
 
-		// Handle the form submission logic here
-		console.log("Gadget details submitted:", gadgetDetails);
+		const { name, description, price, images, location, contact, category } =
+			gadgetDetails;
+
+		const payload = {
+			name,
+			description,
+			price,
+			category_id: category,
+			location,
+			contact_detail: contact,
+			images,
+		};
+		const url = BASE_URL + PRODUCTS;
+		await callAPI(url, payload)
+			.then((response) => {
+				alert("product added ", response);
+			})
+			.catch(() => {
+				alert("Failed to add product, Try again!");
+			});
 	};
+
+	const getCategoriesList = async () => {
+		const url = BASE_URL + CATEGORIES;
+
+		await callAPI(url)
+			.then((response) => {
+				setCategoriesList(response);
+			})
+			.catch((error) => {
+				console.error("Request failed:", error);
+			});
+	};
+
+	useEffect(() => {
+		getCategoriesList();
+	}, []);
 
 	return (
 		<div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
@@ -120,9 +187,11 @@ const Sell = () => {
 						onChange={handleInputChange}
 						className="w-full p-3 border border-gray-300 rounded-lg"
 					>
-						<option value="electronics">Electronics</option>
-						<option value="appliances">Appliances</option>
-						<option value="accessories">Accessories</option>
+						{categoriesList.map(({ _id, name }) => (
+							<option key={_id} value={_id}>
+								{name}
+							</option>
+						))}
 					</select>
 				</div>
 
@@ -202,7 +271,14 @@ const Sell = () => {
 						className="w-full p-3 border border-gray-300 rounded-lg"
 						required
 					/>
+					<div className="mt-1 text-sm text-gray-500">
+					{isImageUpading
+						? "Uploading images.. "
+						: "Minimum 3 files, maximum 12 files"}
 				</div>
+				</div>
+
+				
 
 				{/* Submit Button */}
 				<div className="flex justify-center">
