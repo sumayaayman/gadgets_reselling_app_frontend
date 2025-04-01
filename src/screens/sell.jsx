@@ -87,9 +87,10 @@ const Sell = () => {
 			images,
 		};
 		const url = BASE_URL + PRODUCTS;
-		await callAPI(url, payload)
+		await callAPI(url, payload, "POST")
 			.then((response) => {
 				alert("product added ", response);
+				
 			})
 			.catch(() => {
 				alert("Failed to add product, Try again!");
@@ -99,7 +100,7 @@ const Sell = () => {
 	const getCategoriesList = async () => {
 		const url = BASE_URL + CATEGORIES;
 
-		await callAPI(url)
+		await callAPI(url, {}, "GET")
 			.then((response) => {
 				setCategoriesList(response);
 			})
