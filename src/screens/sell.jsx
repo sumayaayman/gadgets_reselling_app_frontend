@@ -22,7 +22,7 @@ const Sell = () => {
 
 	const [categoriesList, setCategoriesList] = useState([]);
 	const [isImageUpading, setIsImageUploading] = useState(false);
-	const { navigate } = useNavigate();
+	const navigate = useNavigate();
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
