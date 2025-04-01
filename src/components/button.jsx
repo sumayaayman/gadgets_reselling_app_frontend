@@ -13,6 +13,7 @@ const Button = ({ children, type = "primary", onClick }) => {
 				<button
 					type="button"
 					className="text-slate-900 bg-white border border-slate-500 focus:outline-none hover:bg-slate-100 focus:ring-4 focus:ring-slate-100 font-medium rounded text-sm px-5 py-2.5 dark:bg-slate-800 dark:text-white dark:border-slate-600 dark:hover:bg-slate-700 dark:hover:border-slate-600 dark:focus:ring-slate-700"
+					onClick={onClick}
 				>
 					{children}
 				</button>

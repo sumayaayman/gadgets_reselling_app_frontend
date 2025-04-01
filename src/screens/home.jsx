@@ -7,14 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { callAPI } from "../utils/api";
 import { BASE_URL, CATEGORIES, PRODUCTS } from "../constants/url";
 
+const MIN_CATEGORIES_TO_SHOW = 9;
+
 const Dashboard = () => {
 	// Listen for authentication state changes
 	const auth = getAuth();
-
 	const navigate = useNavigate();
-
 	const [categoriesList, setCategoriesList] = useState([]);
 	const [products, setProducts] = useState([]);
+	const [showAllCategories, setShowAllCategories] = useState(false); // Show all or less toggle
+	const [visibleCategories, setVisibleCategories] = useState([]);
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
@@ -22,7 +24,10 @@ const Dashboard = () => {
 				console.log("User details:", user);
 				const { reloadUserInfo } = user;
 				const { displayName, email, photoUrl } = reloadUserInfo;
-				localStorage.setItem("user", JSON.stringify({ name: displayName, email, photoUrl }));
+				localStorage.setItem(
+					"user",
+					JSON.stringify({ name: displayName, email, photoUrl })
+				);
 				console.log("user info ", { name: displayName, email, photoUrl });
 			} else {
 				navigate("/login");
@@ -32,10 +37,10 @@ const Dashboard = () => {
 
 	const getCategories = async () => {
 		const url = BASE_URL + CATEGORIES;
-
 		await callAPI(url, null, "GET")
 			.then((response) => {
 				setCategoriesList(response);
+				response.slice(0, MIN_CATEGORIES_TO_SHOW);
 			})
 			.catch((error) => {
 				console.error("Request failed:", error);
@@ -44,11 +49,22 @@ const Dashboard = () => {
 
 	const getProducts = async () => {
 		const url = BASE_URL + PRODUCTS;
-
 		await callAPI(url, null, "GET").then((response) => {
 			setProducts(response);
 		});
 	};
+
+	const handleShowAllCategories = () => {
+		setShowAllCategories(!showAllCategories);
+	};
+
+	useEffect(() => {
+		if (showAllCategories) {
+			setVisibleCategories(categoriesList);
+		} else {
+			setVisibleCategories(categoriesList.slice(0, MIN_CATEGORIES_TO_SHOW));
+		}
+	}, [categoriesList, showAllCategories]);
 
 	useEffect(() => {
 		getCategories();
@@ -57,21 +73,31 @@ const Dashboard = () => {
 
 	return (
 		<div>
-			{/* Tags */}
-			<div className="flex items-center px-6 py-4 pt-4 gap-4 flex-wrap">
-				{categoriesList.map((item) => (
-					<Tag
-						key={item._id}
-						id={item._id}
-						name={item.name}
-						onClick={() => console.log(item)}
-					>
-						{item.name}
-					</Tag>
-				))}
-				<Button type="secondary">Clear All</Button>
+			{/* Tags Section */}
+			<div className="flex grid-col-2 px-6 py-4">
+				<div className="flex flex-col  w-4/5">
+					<div className="flex items-center gap-4 flex-wrap">
+						{visibleCategories.map((item) => (
+							<Tag
+								key={item._id}
+								id={item._id}
+								name={item.name}
+								onClick={() => console.log(item)}
+							>
+								{item.name}
+							</Tag>
+						))}
+					</div>
+				</div>
+				<div className="w-1/5 pl-6">
+					<Button onClick={handleShowAllCategories}>
+						{showAllCategories ? "Show Less" : "Show All"}
+					</Button>
+					<Button>Clear All</Button>
+				</div>
 			</div>
-			{/* Tags */}
+
+			{/* Products Section */}
 			<div className="px-4 py-2 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
 				{products.map((item) => (
 					<Product {...item} key={item._id} />
