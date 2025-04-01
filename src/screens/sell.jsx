@@ -6,6 +6,7 @@ import {
 	UPLOAD_IMAGES,
 } from "../constants/url";
 import { callAPI, callImageAPI } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const Sell = () => {
 	const [gadgetDetails, setGadgetDetails] = useState({
@@ -21,6 +22,7 @@ const Sell = () => {
 
 	const [categoriesList, setCategoriesList] = useState([]);
 	const [isImageUpading, setIsImageUploading] = useState(false);
+	const { navigate } = useNavigate();
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -90,7 +92,7 @@ const Sell = () => {
 		await callAPI(url, payload, "POST")
 			.then((response) => {
 				alert("product added ", response);
-				
+				navigate("/");
 			})
 			.catch(() => {
 				alert("Failed to add product, Try again!");
