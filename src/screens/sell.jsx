@@ -195,27 +195,6 @@ const Sell = () => {
 					</select>
 				</div>
 
-				{/* Condition */}
-				<div>
-					<label
-						htmlFor="condition"
-						className="block text-gray-700 font-medium mb-2"
-					>
-						Condition
-					</label>
-					<select
-						id="condition"
-						name="condition"
-						value={gadgetDetails.condition}
-						onChange={handleInputChange}
-						className="w-full p-3 border border-gray-300 rounded-lg"
-					>
-						<option value="new">New</option>
-						<option value="used">Used</option>
-						<option value="refurbished">Refurbished</option>
-					</select>
-				</div>
-
 				{/* Location */}
 				<div>
 					<label
