@@ -9,7 +9,7 @@ import { BASE_URL, CATEGORIES, PRODUCTS } from "../constants/url";
 
 const MIN_CATEGORIES_TO_SHOW = 9;
 
-const Dashboard = () => {
+const Dashboard = ({ searchText }) => {
 	// Listen for authentication state changes
 	const auth = getAuth();
 	const navigate = useNavigate();
@@ -17,6 +17,8 @@ const Dashboard = () => {
 	const [products, setProducts] = useState([]);
 	const [showAllCategories, setShowAllCategories] = useState(false); // Show all or less toggle
 	const [visibleCategories, setVisibleCategories] = useState([]);
+	const [selectedCategories, setSelectedCategories] = useState([]);
+	const [visibleProducts, setVisibleProducts] = useState([]);
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
@@ -40,7 +42,6 @@ const Dashboard = () => {
 		await callAPI(url, null, "GET")
 			.then((response) => {
 				setCategoriesList(response);
-				response.slice(0, MIN_CATEGORIES_TO_SHOW);
 			})
 			.catch((error) => {
 				console.error("Request failed:", error);
@@ -51,12 +52,38 @@ const Dashboard = () => {
 		const url = BASE_URL + PRODUCTS;
 		await callAPI(url, null, "GET").then((response) => {
 			setProducts(response);
+			setVisibleProducts(response);
 		});
 	};
 
 	const handleShowAllCategories = () => {
 		setShowAllCategories(!showAllCategories);
 	};
+
+	const handleCategorySelection = ({ id }) => {
+		if (selectedCategories.includes(id)) {
+			setSelectedCategories(selectedCategories.filter((item) => item !== id));
+		} else {
+			setSelectedCategories([...selectedCategories, id]);
+		}
+	};
+
+	const handleClearAll = () => {
+		setSelectedCategories([]);
+		setVisibleProducts(products);
+	};
+	
+	const handleApplyFilter = () => {
+		const filteredProducts = products.filter((product) =>
+			selectedCategories.includes(product.category_id)
+		);
+		setVisibleProducts(filteredProducts);
+	}
+
+	useEffect(() => {
+		const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(searchText));
+		setVisibleProducts(filteredProducts)
+	}, [products, searchText]);
 
 	useEffect(() => {
 		if (showAllCategories) {
@@ -75,33 +102,35 @@ const Dashboard = () => {
 		<div>
 			{/* Tags Section */}
 			<div className="flex grid-col-2 px-6 py-4">
-				<div className="flex flex-col  w-4/5">
+				<div className="flex flex-col  w-3/4">
 					<div className="flex items-center gap-4 flex-wrap">
 						{visibleCategories.map((item) => (
 							<Tag
 								key={item._id}
 								id={item._id}
 								name={item.name}
-								onClick={() => console.log(item)}
+								onClick={handleCategorySelection}
+								selected={selectedCategories?.includes(item._id)}
 							>
 								{item.name}
 							</Tag>
 						))}
 					</div>
 				</div>
-				<div className="w-1/5 pl-6">
+				<div className="w-1/4 pl-2">
 					<Button onClick={handleShowAllCategories}>
 						{showAllCategories ? "Show Less" : "Show All"}
 					</Button>
-					<Button>Clear All</Button>
+					<Button onClick={handleApplyFilter}>Apply Filter</Button>
+					<Button onClick={handleClearAll}>Clear All</Button>
 				</div>
 			</div>
 
 			{/* Products Section */}
 			<div className="px-4 py-2 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-				{products.map((item) => (
+				{visibleProducts.length > 0 ? visibleProducts.map((item) => (
 					<Product {...item} key={item._id} />
-				))}
+				)): <div className="w-full ">No products found</div> }
 			</div>
 		</div>
 	);
