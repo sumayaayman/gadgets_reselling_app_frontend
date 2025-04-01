@@ -1,13 +1,16 @@
 export const callAPI = async  (url, body = null, method = 'GET', headers = {}) => {
   try {
-    const response = await fetch(url, {
+    const request = {
       method: method,
-      headers: {
+      headers:  {
         'Content-Type': 'application/json',
         ...headers,
       },
-      body: body ? JSON.stringify(body) : null,
-    });
+    }
+    if(body) {
+      request.body = body ? JSON.stringify(body) : null;
+    }
+    const response = await fetch(url, request);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);

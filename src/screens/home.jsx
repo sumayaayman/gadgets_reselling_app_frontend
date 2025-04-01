@@ -29,7 +29,7 @@ const Dashboard = () => {
 	const getCategories = async () => {
 		const url = BASE_URL + CATEGORIES;
 
-		await callAPI(url)
+		await callAPI(url, null, "GET")
 			.then((response) => {
 				setCategoriesList(response);
 			})
@@ -41,7 +41,7 @@ const Dashboard = () => {
 	const getProducts = async () => {
 		const url = BASE_URL + PRODUCTS;
 
-		await callAPI(url).then((response) => {
+		await callAPI(url, null, "GET").then((response) => {
 			setProducts(response);
 		});
 	};
