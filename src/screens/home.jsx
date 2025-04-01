@@ -20,6 +20,10 @@ const Dashboard = () => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
 				console.log("User details:", user);
+				const { reloadUserInfo } = user;
+				const { displayName, email, photoUrl } = reloadUserInfo;
+				localStorage.setItem("user", JSON.stringify({ name: displayName, email, photoUrl }));
+				console.log("user info ", { name: displayName, email, photoUrl });
 			} else {
 				navigate("/login");
 			}

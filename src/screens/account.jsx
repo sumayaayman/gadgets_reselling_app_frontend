@@ -4,27 +4,26 @@ const Account = () => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 
+	const userInfo = JSON.parse(localStorage.getItem("user"));
+
 	// Example user data
 	const user = {
-		name: "John Doe",
-		email: "johndoe@example.com",
-		location: "New York, USA",
 		productsSold: [
 			{
 				id: 1,
 				name: "Drone A1",
 				price: "₹25,000",
 				description: "A high-end drone with amazing features.",
-				location: "New York",
-				datePosted: "2023-01-01",
+				location: "Coimbatore",
+				datePosted: "1st Mar 2025",
 			},
 			{
 				id: 2,
-				name: "Smartphone X",
-				price: "₹15,000",
-				description: "An excellent smartphone with a great camera.",
-				location: "New York",
-				datePosted: "2023-02-15",
+				name: "iPhone 13 Pro Max",
+				price: "₹30,000",
+				description: "Green, 256GB, 8GB RAM",
+				location: "Coimbatore",
+				datePosted: "15th Mar 2025",
 			},
 		],
 	};
@@ -46,69 +45,67 @@ const Account = () => {
 	};
 
 	return (
-<div className="container mx-auto p-6 space-y-8">
-      {/* Account Info and Products Sold */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Side: Account Details */}
-        <div className="bg-white p-6 rounded-lg shadow-lg space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Account Details</h2>
-          <div className="text-sm text-gray-600">
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Location:</strong> {user.location}</p>
-          </div>
-          <button
-            onClick={handleEditClick}
-            className="px-6 py-2 bg-indigo-600 text-white rounded-lg w-full hover:bg-indigo-500 transition duration-200"
-          >
-            Edit Account Details
-          </button>
-        </div>
+		<div className="container mx-auto p-6 space-y-8">
+			{/* Account Info and Products Sold */}
+			<div className="flex items-center">
+						<div className="rounded-full bg-gray-200 w-12 h-12 mr-2 shadow">
+							<img
+								className="rounded-full"
+								src={userInfo.photoUrl}
+								alt="photo"
+							/>
+						</div>
 
-        {/* Right Side: Products Sold */}
-        <div className="bg-white p-6 rounded-lg shadow-lg space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Products Sold</h2>
-          {user.productsSold.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {user.productsSold.map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200"
-                >
-                  <h4 className="text-lg font-semibold text-gray-800">{product.name}</h4>
-                  <p className="text-gray-500 text-sm">{product.price}</p>
-                  <p className="text-gray-500 text-sm">{product.location}</p>
-                  <button
-                    onClick={() => handleViewProductDetails(product)}
-                    className="text-indigo-600 hover:underline text-xs mt-2 block"
-                  >
-                    View Details
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500">No products sold yet.</p>
-          )}
-        </div>
-      </div>
+						<div className="text-sm text-gray-600">
+							<p className="text-xl">{userInfo.name}</p>
+							<p>{userInfo.email}</p>
+						</div>
+					</div>
 
-      {/* Edit Profile Modal */}
-      {isEditing && (
-        <EditProfileModal
-          user={user}
-          onClose={handleCloseEdit}
-        />
-      )}
+			<div className="grid grid-cols-1 gap-8">
+				<div className="bg-gray-50 p-6 rounded-lg shadow-lg space-y-6">
+					<h2 className="text-2xl font-semibold text-gray-800">
+						Products Sold
+					</h2>
+					{user.productsSold.length > 0 ? (
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+							{user.productsSold.map((product) => (
+								<div
+									key={product.id}
+									className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200"
+								>
+									<h4 className="text-lg font-semibold text-gray-800">
+										{product.name}
+									</h4>
+									<p className="text-gray-500 text-sm">{product.price}</p>
+									<p className="text-gray-500 text-sm">{product.location}</p>
+									<button
+										onClick={() => handleViewProductDetails(product)}
+										className="text-indigo-600 hover:underline text-xs mt-2 block"
+									>
+										View Details
+									</button>
+								</div>
+							))}
+						</div>
+					) : (
+						<p className="text-gray-500">No products sold yet.</p>
+					)}
+				</div>
+			</div>
 
-      {/* Product Details Modal */}
-      {selectedProduct && (
-        <ProductDetailsModal
-          product={selectedProduct}
-          onClose={handleCloseProductDetails}
-        />
-      )}
-    </div>	);
+			{/* Edit Profile Modal */}
+			{isEditing && <EditProfileModal user={user} onClose={handleCloseEdit} />}
+
+			{/* Product Details Modal */}
+			{selectedProduct && (
+				<ProductDetailsModal
+					product={selectedProduct}
+					onClose={handleCloseProductDetails}
+				/>
+			)}
+		</div>
+	);
 };
 
 export default Account;

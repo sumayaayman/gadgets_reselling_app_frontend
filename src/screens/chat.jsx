@@ -6,8 +6,8 @@ const chatList = [
 	{
 		id: 1,
 		name: "Alice",
-		lastMessage: "Hey! How's it going?",
-		time: "10:45 AM",
+		lastMessage: "Sure.",
+		time: "10:50 AM",
 		profilePicture: "",
 		messages: [
 			{ sender: "Alice", text: "Hey! How's it going?", time: "10:45 AM" },
@@ -16,53 +16,36 @@ const chatList = [
 				text: "I'm good, thanks! How about you?",
 				time: "10:46 AM",
 			},
-			{ sender: "Alice", text: "Hey! How's it going?", time: "10:45 AM" },
-			{ sender: "Alice", text: "Hey! How's it going?", time: "10:45 AM" },
+			{ sender: "Alice", text: "I'm good too. I'm interested in the laptop you posted", time: "10:47 AM" },
 
 			{
 				sender: "You",
-				text: "I'm good, thanks! How about you?",
-				time: "10:46 AM",
+				text: "Oh Okay. Do you have questions about it?",
+				time: "10:48 AM",
 			},
-			{ sender: "Alice", text: "Hey! How's it going?", time: "10:45 AM" },
+			{ sender: "Alice", text: "Yes, is there any way we can negotiate on the price?", time: "10:48 AM" },
 			{
 				sender: "You",
-				text: "I'm good, thanks! How about you?",
-				time: "10:46 AM",
+				text: "Actually no. This is the best price I can sell.",
+				time: "10:49 AM",
 			},
+			{ sender: "Alice", text: "Okay then! Share the contact details. I'll call you and let's discuss it.", time: "10:49 AM" },
 			{
 				sender: "You",
-				text: "I'm good, thanks! How about you?",
-				time: "10:46 AM",
-			},
-			{
-				sender: "You",
-				text: "I'm good, thanks! How about you?",
-				time: "10:46 AM",
-			},
-			{
-				sender: "You",
-				text: "I'm good, thanks! How about you?",
-				time: "10:46 AM",
-			},
-
-			{ sender: "Alice", text: "Hey! How's it going?", time: "10:45 AM" },
-			{
-				sender: "You",
-				text: "I'm good, thanks! How about you?",
-				time: "10:46 AM",
+				text: "Sure.",
+				time: "10:50 AM",
 			},
 		],
 	},
 	{
 		id: 2,
 		name: "Bob",
-		lastMessage: "See you later, bro!",
-		time: "9:30 AM",
+		lastMessage: "Sure. I'll share my mobile number.",
+		time: "9:31 AM",
 		profilePicture: "",
 		messages: [
-			{ sender: "Bob", text: "See you later, bro!", time: "9:30 AM" },
-			{ sender: "You", text: "Catch you later!", time: "9:31 AM" },
+			{ sender: "Bob", text: "Hey! Can you share your contact details? I want to discuss about the product you posted.", time: "9:30 AM" },
+			{ sender: "You", text: "Sure. I'll share my mobile number.", time: "9:31 AM" },
 		],
 	},
 ];
@@ -97,7 +80,7 @@ const Chat = () => {
 	};
 
 	return (
-		<div className="flex mx-auto w-9/12 h-[calc(100vh-74px)] justify-center bg-white shadow-lg rounded-lg overflow-hidden">
+		<div className="flex mx-auto w-full h-[calc(100vh-74px)] justify-center bg-white shadow-lg rounded-lg overflow-hidden">
 			{/* Left side: Chat list */}
 			<div className="w-1/3 bg-gray-100 p-4">
 				<h2 className="text-xl font-semibold mb-4">Chats</h2>
@@ -155,7 +138,7 @@ const Chat = () => {
 						</div>
 					</div>
 				) : (
-					<div className="text-center text-gray-600">
+					<div className="text-center text-gray-600 mt-8">
 						Select a chat to start messaging
 					</div>
 				)}

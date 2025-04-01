@@ -100,7 +100,7 @@ const Sell = () => {
 	const getCategoriesList = async () => {
 		const url = BASE_URL + CATEGORIES;
 
-		await callAPI(url, {}, "GET")
+		await callAPI(url, null, "GET")
 			.then((response) => {
 				setCategoriesList(response);
 			})
