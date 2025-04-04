@@ -87,6 +87,7 @@ const Sell = () => {
 			location,
 			contact_detail: contact,
 			images,
+			sellerEmail: JSON.parse(localStorage.getItem("user")).email,
 		};
 		const url = BASE_URL + PRODUCTS;
 		await callAPI(url, payload, "POST")

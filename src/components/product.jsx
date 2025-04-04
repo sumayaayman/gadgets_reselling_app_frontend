@@ -11,6 +11,7 @@ const Product = ({
 	date_added,
 	contact_detail,
 	category_id,
+	sellerEmail,
 }) => {
 	// Modal visibility state
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +43,7 @@ const Product = ({
 	};
 
     const handleChat = () => {
-        navigate("/chat");
+        navigate("/chat", { state: { data: { sellerEmail } }});
     }
 
 	return (
