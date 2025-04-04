@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { callAPI } from "../utils/api";
+import { BASE_URL, USERS } from "../constants/url";
+import { getCurrentTime } from "../utils/func";
 // import { FaUserCircle } from "react-icons/fa"; // For profile icon
 
 // Dummy data
-const chatList = [
+const ChatList = [
 	{
 		id: 1,
 		name: "Alice",
+		email: "alice@example.com",
 		lastMessage: "Sure.",
 		time: "10:50 AM",
 		profilePicture: "",
@@ -40,6 +45,7 @@ const chatList = [
 	{
 		id: 2,
 		name: "Bob",
+		email: "bob@example.com",
 		lastMessage: "Sure. I'll share my mobile number.",
 		time: "9:31 AM",
 		profilePicture: "",
@@ -52,7 +58,12 @@ const chatList = [
 
 const Chat = () => {
 	const [selectedChat, setSelectedChat] = useState(null);
+	const [chatList, setChatList] = useState(ChatList);
 	const [message, setMessage] = useState("");
+	const location = useLocation();
+
+  // Access the passed state
+  const sellerEmail = location.state?.data?.sellerEmail;
 
 	// Handle chat selection from the list
 	const handleSelectChat = (chat) => {
@@ -79,13 +90,38 @@ const Chat = () => {
 		}
 	};
 
+	const pushNewChat = useCallback(async () => {
+		const selectedChat = chatList.find((chat) => chat.email === sellerEmail);
+		if (selectedChat) {
+			setSelectedChat(selectedChat);
+		} else {
+			const response = await callAPI(BASE_URL + USERS, null, "GET");
+			const userInfo = response?.users.filter((user) => user.email === sellerEmail)?.[0];
+			const newChat = {
+				id: chatList.length + 1,
+				name: userInfo.name,
+				email: sellerEmail,
+				lastMessage: "",
+				time: getCurrentTime(),
+				profilePicture: userInfo.photoUrl,
+				messages: [],
+			}
+			setChatList([...chatList, newChat]);
+			setSelectedChat([newChat]);
+		}
+	}, [chatList, sellerEmail]);
+
+	useEffect(() => {
+		pushNewChat();
+	}, [pushNewChat]);
+
 	return (
 		<div className="flex mx-auto w-full h-[calc(100vh-74px)] justify-center bg-white shadow-lg rounded-lg overflow-hidden">
 			{/* Left side: Chat list */}
 			<div className="w-1/3 bg-gray-100 p-4">
 				<h2 className="text-xl font-semibold mb-4">Chats</h2>
 				<ul className="">
-					{chatList.map((chat) => (
+					{chatList?.map((chat) => (
 						<li
 							key={chat.id}
 							onClick={() => handleSelectChat(chat)}
@@ -146,7 +182,7 @@ const Chat = () => {
 				{/* Chat messages */}
 				<div className="flex-1 overflow-y-auto mb-4 space-y-4">
 					{selectedChat ? (
-						selectedChat.messages.map((message, index) => (
+						selectedChat.messages?.map((message, index) => (
 							<div
 								key={index}
 								className={`flex ${

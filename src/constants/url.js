@@ -8,3 +8,7 @@ export const CATEGORIES = 'categories';
 
 // images
 export const UPLOAD_IMAGES = "uploadImages";
+
+//users
+export const ADD_USER = "addUser";
+export const USERS = "users";

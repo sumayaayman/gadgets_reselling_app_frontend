@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { callAPI } from "../utils/api";
-import { BASE_URL, CATEGORIES, PRODUCTS } from "../constants/url";
+import { ADD_USER, BASE_URL, CATEGORIES, PRODUCTS } from "../constants/url";
 
 const MIN_CATEGORIES_TO_SHOW = 9;
 
@@ -26,16 +26,24 @@ const Dashboard = ({ searchText }) => {
 				console.log("User details:", user);
 				const { reloadUserInfo } = user;
 				const { displayName, email, photoUrl } = reloadUserInfo;
-				localStorage.setItem(
-					"user",
-					JSON.stringify({ name: displayName, email, photoUrl })
-				);
-				console.log("user info ", { name: displayName, email, photoUrl });
+				const userInfo = {
+					name: displayName,
+					email,
+					photoUrl,
+				};
+				localStorage.setItem("user", JSON.stringify(userInfo));
+				console.log("userInfo info ", userInfo);
+				handleAddUser(userInfo);
 			} else {
 				navigate("/login");
 			}
 		});
 	}, [auth, navigate]);
+
+	const handleAddUser = async (user) => {
+		const response = await callAPI(BASE_URL + ADD_USER, user, "POST");
+		console.log(response);
+	};
 
 	const getCategories = async () => {
 		const url = BASE_URL + CATEGORIES;
@@ -72,17 +80,19 @@ const Dashboard = ({ searchText }) => {
 		setSelectedCategories([]);
 		setVisibleProducts(products);
 	};
-	
+
 	const handleApplyFilter = () => {
 		const filteredProducts = products.filter((product) =>
 			selectedCategories.includes(product.category_id)
 		);
 		setVisibleProducts(filteredProducts);
-	}
+	};
 
 	useEffect(() => {
-		const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(searchText));
-		setVisibleProducts(filteredProducts)
+		const filteredProducts = products.filter((product) =>
+			product.name.toLowerCase().includes(searchText)
+		);
+		setVisibleProducts(filteredProducts);
 	}, [products, searchText]);
 
 	useEffect(() => {
@@ -128,9 +138,11 @@ const Dashboard = ({ searchText }) => {
 
 			{/* Products Section */}
 			<div className="px-4 py-2 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-				{visibleProducts.length > 0 ? visibleProducts.map((item) => (
-					<Product {...item} key={item._id} />
-				)): <div className="w-full ">No products found</div> }
+				{visibleProducts.length > 0 ? (
+					visibleProducts.map((item) => <Product {...item} key={item._id} />)
+				) : (
+					<div className="w-full ">No products found</div>
+				)}
 			</div>
 		</div>
 	);

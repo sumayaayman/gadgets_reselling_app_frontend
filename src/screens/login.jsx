@@ -4,12 +4,14 @@ import LoginBanner from "../assets/login-banner1.jpg";
 
 import { loginWithGoogle } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { callAPI } from "../utils/api";
+import { ADD_USER, BASE_URL } from "../constants/url";
 
 const Login = () => {
 	const naviagte = useNavigate();
 	const onClickLogin = async () => {
 		const loginResponse = await loginWithGoogle();
-		console.log(loginResponse);
+		console.log("loginResponse", loginResponse);
 		naviagte("/");
 	};
 
